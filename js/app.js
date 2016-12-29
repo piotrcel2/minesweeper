@@ -17,11 +17,14 @@ document.addEventListener("DOMContentLoaded", function(){
     
     var rows = document.getElementsByClassName("row");
     var fields = document.getElementsByClassName("field");
+    var gamebox = document.getElementsByClassName("gamebox");
     
     for (var i=0; i<fields.length; i++){
         
         fields[i].classList.add('unclicked');
     }
+    
+    console.log('just drawing for a moment');
     
     
     var bombsleft = 0;
@@ -41,7 +44,7 @@ document.addEventListener("DOMContentLoaded", function(){
     
     
     
-    for (var i=1; i<=112; i++){ //rozlosowanie 112 bomb
+    for (var i=1; i<=106; i++){ //rozlosowanie 106 bomb
         
         while (bombisplaced == false) {
             
@@ -60,7 +63,10 @@ document.addEventListener("DOMContentLoaded", function(){
         
     }
     
-    /* wywala wszystkie bomby na mapie
+    
+    // wyrzuca wszystkie bomby na mapie
+    
+    
     for (var i=0; i<=23; i++){
         for (var j=0; j<=23; j++){
         
@@ -70,11 +76,59 @@ document.addEventListener("DOMContentLoaded", function(){
             
         }
     }
-    */
     
     
-    console.log(arena);
     
+    for (var i=0; i<=23; i++){
+        for (var j=0; j<=23; j++){
+            
+            //tu przeleci przez każde pole na planszy
+            
+            if (arena[i][j] != 99){ // ma nadać indeks w każde miejsce areny które nie jest bombą
+                var counter = 0;
+                
+                if (i >=1 && j>=1){ // sprawdza czy nie jest w rogu mapy
+                    if (arena[i-1][j-1] == 99){ counter++;} // w odpowiednim miejscu liczy czy są bomby
+                }
+                
+                if (i >=1){
+                    if (arena[i-1][j] == 99){ counter++;}
+                }
+                
+                if (i >=1 && j <23){
+                    if (arena[i-1][j+1] == 99){ counter++;}
+                }
+                
+                if (j >=1){
+                    if (arena[i][j-1] == 99){ counter++;}
+                }
+                
+                if (j <23){
+                    if (arena[i][j+1] == 99){ counter++;}
+                }
+                
+                if (i <23 && j>=1){
+                    if (arena[i+1][j-1] == 99){ counter++;}
+                }
+                
+                if (i <23){
+                    if (arena[i+1][j] == 99){ counter++;}
+                }
+                
+                if (i <23 && j<23){
+                    if (arena[i+1][j+1] == 99){ counter++;}
+                }
+                
+                arena[i][j] = counter;
+                rows[i].children[j].innerHTML += counter;
+            }
+            
+        }
+    }
+    
+    gamebox[0].addEventListener("click", function(){
+        //dla klikania boxa
+    });
     
     
     
