@@ -10,6 +10,11 @@ body {
     background-color: #708090;
 }
 
+a {
+    text-decoration: none;
+    color: black;
+}
+
 .container {
     
     width: 384px;
@@ -44,7 +49,7 @@ body {
     font-size: 13px;
     line-height: 13px;
     text-align: center;
-    
+    border: 2px solid #C0C0C0;
     
 }
 
@@ -66,4 +71,9 @@ body {
 .bombhere {
     background-position: center;
     background-image: url(../images/bomb.PNG);
+}
+
+.flaghere {
+    background-position: center;
+    background-image: url(../images/flag.PNG);
 }

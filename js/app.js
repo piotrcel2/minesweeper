@@ -8,8 +8,8 @@
     wartości arenymark:
     
     0 - nieklikniete
-    1 - klikniete (bez bomby)
-    2 - postawiona flaga
+    2 - klikniete (bez bomby)
+    1 - postawiona flaga
     3 - klikniete z bomba? */
 
 
@@ -19,12 +19,14 @@ document.addEventListener("DOMContentLoaded", function(){
     var fields = document.getElementsByClassName("field");
     var gamebox = document.getElementsByClassName("gamebox");
     
+    var gameover = false;
+    
     for (var i=0; i<fields.length; i++){
         
         fields[i].classList.add('unclicked');
     }
     
-    console.log('just drawing for a moment');
+    
     
     
     var bombsleft = 0;
@@ -64,18 +66,23 @@ document.addEventListener("DOMContentLoaded", function(){
     }
     
     
-    // wyrzuca wszystkie bomby na mapie
     
     
-    for (var i=0; i<=23; i++){
-        for (var j=0; j<=23; j++){
+    function showbombs() {  // wyrzuca wszystkie bomby na mapie
         
-            if (arena[i][j] == 99){
-                rows[i].children[j].classList.add('bombhere');
+        for (var i=0; i<=23; i++){
+            for (var j=0; j<=23; j++){
+
+                if (arena[i][j] == 99){
+                    rows[i].children[j].classList.add('bombhere');
+                }
+
             }
-            
         }
+        
     }
+    
+    
     
     
     
@@ -120,17 +127,94 @@ document.addEventListener("DOMContentLoaded", function(){
                 }
                 
                 arena[i][j] = counter;
-                rows[i].children[j].innerHTML += counter;
+                //rows[i].children[j].innerHTML += counter; // to by wywaliło numer w każdym miejscu
             }
             
         }
     }
     
-    gamebox[0].addEventListener("click", function(){
-        //dla klikania boxa
-    });
     
     
+    
+    gamebox[0].addEventListener("click", function(event){
+
+        if (gameover != true) {
+            
+            
+            
+            var x = event.clientX-this.offsetLeft;
+            x = Math.floor(x / 16);
+
+            var y = event.clientY-this.offsetTop;
+            y = Math.floor(y / 16);
+
+            if (arenamark[y][x] == 0){  // pole niekliknięte
+
+                arenamark[y][x] = 1;
+                rows[y].children[x].classList.add('flaghere');
+
+
+            } else if (arenamark[y][x] == 1){   //pole z flagą
+
+                rows[y].children[x].classList.remove('flaghere');
+                rows[y].children[x].classList.remove('unclicked');
+
+                if (arena[y][x] == 99){ // wchodzi w bombe!
+                    showbombs();
+                    arenamark[y][x] = 3;
+                    gameover = true;
+                    
+                } else if (arena[y][x] == 0){
+                    //rozwinięcie, pokazanie całej otoczki wobec pustych pól
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                } else {
+                    rows[y].children[x].innerHTML += arena[y][x];
+                        
+                    if (arena[y][x] == 1){
+                        rows[y].children[x].style.color = "blue";
+                    }
+                    if (arena[y][x] == 2){
+                        rows[y].children[x].style.color = "green";
+                    }
+                    if (arena[y][x] == 3){
+                        rows[y].children[x].style.color = "red";
+                    }
+                    if (arena[y][x] == 4){
+                        rows[y].children[x].style.color = "brown";
+                    }
+                    if (arena[y][x] == 5){
+                        rows[y].children[x].style.color = "purple";
+                    }
+                    if (arena[y][x] == 6){
+                        rows[y].children[x].style.color = "darkblue";
+                    }
+                    if (arena[y][x] == 7){
+                        rows[y].children[x].style.color = "darkviolet";
+                    }
+                    
+                    
+                    arenamark[y][x] = 2;
+                }
+
+            } else {
+
+            }
+            
+            
+            
+            
+        }
+        
+        
+        
+    })
     
     
 });
